@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/seyamibrahim/movie-reservation-system/configs"
+    "github.com/seyamibrahim/movie-reservation-system/internal/user"
 )
 
 var (
@@ -17,7 +18,7 @@ var (
 type Claims struct {
 	UserID uuid.UUID `json:"user_id"`
 	Email  string    `json:"email"`
-	Role   string    `json:"role"`
+	Role   user.Role `json:"role"`
 
 	jwt.RegisteredClaims
 }
@@ -28,7 +29,7 @@ func CreateJWT(userID uuid.UUID, email, role string, cfg *configs.AppConfig) (st
 	claims := Claims{
 		UserID: userID,
 		Email:  email,
-		Role:   role,
+		Role:   user.Role(role),
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
