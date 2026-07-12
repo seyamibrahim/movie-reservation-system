@@ -1,5 +1,7 @@
 package server
 
+import "github.com/seyamibrahim/movie-reservation-system/internal/shared/middleware"
+
 func SetupPublicRoutes(s *HTTPServer) {
 	srs := s.Engine.Group(BasePath)
 
@@ -11,7 +13,13 @@ func SetupPublicRoutes(s *HTTPServer) {
 
 func SetupPrivateRoutes(s *HTTPServer) {
 
+	srs := s.Engine.Group(BasePath)
+
+	srs.Use(middleware.AuthMiddleware(s.Config))
 
 
+	// protected routes
+	userGroup := srs.Group("/user")
 
+	SetupUserRoutes(userGroup, s)
 }

@@ -22,7 +22,7 @@ func main() {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
 
-    handlers := handlers.InitHandlers(db)
+    handlers := handlers.InitHandlers(db, cfg)
 
 	// Initialize Server
 	s, err := server.NewHTTPServer(cfg, handlers)
